@@ -4,14 +4,12 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
-  // 暴露 VNC 的默认端口
-  "forwardPorts": [5901],
+  "forwardPorts":,
   "portsAttributes": {
-    "5901": {
-      "label": "VNC Desktop",
+    "6080": {
+      "label": "Web Desktop",
       "onAutoForward": "notify"
     }
   },
-  // 容器启动后，自动开启 VNC Server，并设置为免密连接
-  "postStartCommand": "vncserver :1 -geometry 1920x1080 -depth 24 -SecurityTypes None"
+  "postStartCommand": "vncserver :1 -geometry 1920x1080 -depth 24 -SecurityTypes None && nohup /opt/novnc/utils/novnc_proxy --vnc localhost:5901 --listen 6080 > /tmp/novnc.log 2>&1 &"
 }
