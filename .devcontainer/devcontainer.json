@@ -4,7 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
-  "forwardPorts":,
+  "forwardPorts": [6080],
   "portsAttributes": {
     "6080": {
       "label": "Web Desktop",
