@@ -21,7 +21,7 @@ echo ""
 
 # 2. 检查VNC服务
 echo "🖥️  检查 VNC 服务..."
-if pgrep -f "vncserver" > /dev/null; then
+if pgrep -f "vncserver|Xvnc|Xtigervnc" > /dev/null; then
     echo "✅ VNC 服务正在运行"
 else
     echo "⚠️  VNC 服务未运行，正在启动..."
