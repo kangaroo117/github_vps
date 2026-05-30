@@ -1,0 +1,17 @@
+{
+  "name": "Arm Socrates Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  // 暴露 VNC 的默认端口
+  "forwardPorts": [5901],
+  "portsAttributes": {
+    "5901": {
+      "label": "VNC Desktop",
+      "onAutoForward": "notify"
+    }
+  },
+  // 容器启动后，自动开启 VNC Server，并设置为免密连接
+  "postStartCommand": "vncserver :1 -geometry 1920x1080 -depth 24 -SecurityTypes None"
+}
