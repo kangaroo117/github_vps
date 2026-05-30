@@ -11,7 +11,8 @@
   "portsAttributes": {
     "6080": {
       "label": "Web Desktop",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "visibility": "public"
     }
   },
   "postStartCommand": "bash .devcontainer/start_vnc.sh"
