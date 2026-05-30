@@ -11,8 +11,11 @@ RUN dnf install -y \
     mesa-libGL mesa-libGLU \
     java-11-openjdk-devel \
     tigervnc-server fluxbox xterm \
-    git python3 procps-ng \
+    git python3 python3-pip procps-ng \
     && dnf clean all
+
+# 安装 numpy 以优化 websockify 性能
+RUN pip3 install numpy
 
 # 下载 noVNC 和 websockify 代理工具
 RUN git clone https://github.com/novnc/noVNC.git /opt/novnc && \
