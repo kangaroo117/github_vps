@@ -1,15 +1,30 @@
 #!/bin/bash
-# 关闭严格模式，防止因为微小的警告导致整个脚本退出
-set +e
+set -e
+
+VNC_PASSWORD="${VNC_PASSWORD:-vscode}"
+VNC_DIR="/home/vscode/.vnc"
+PASSWD_FILE="$VNC_DIR/passwd"
 
 echo "Starting environment initialization..."
 
+echo "Using VNC password: ${VNC_PASSWORD}"
+
+mkdir -p "$VNC_DIR"
+cat > "$VNC_DIR/xstartup" <<'EOF'
+#!/bin/sh
+fluxbox &
+EOF
+chmod +x "$VNC_DIR/xstartup"
+
+printf '%s\n%s\n' "$VNC_PASSWORD" "$VNC_PASSWORD" | vncpasswd -f > "$PASSWD_FILE"
+chmod 600 "$PASSWD_FILE"
+
 # 1. 强制清理任何可能的残留锁文件
-vncserver -kill :1 > /dev/null 2>&1
+vncserver -kill :1 > /dev/null 2>&1 || true
 rm -rf /tmp/.X1-lock /tmp/.X11-unix/X1
 
 # 2. 启动底层的 VNC 桌面
-vncserver :1 -geometry 1920x1080 -depth 24 -SecurityTypes None
+vncserver :1 -geometry 1920x1080 -depth 24
 
 # 给 VNC 留出 2 秒钟的启动缓冲时间
 sleep 2

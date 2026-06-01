@@ -9,6 +9,11 @@
     6080
   ],
   "portsAttributes": {
+    "5901": {
+      "label": "VNC Server",
+      "onAutoForward": "notify",
+      "visibility": "private"
+    },
     "6080": {
       "label": "Web Desktop",
       "onAutoForward": "notify",

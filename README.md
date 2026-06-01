@@ -185,7 +185,27 @@ bash start.sh stop ubuntu
 ```bash
 bash start.sh stop win11
 ```
+## Codespaces VNC 访问
 
+本仓库的 `.devcontainer/devcontainer.json` 已配置：
+- 自动在 Codespace 启动后运行 `.devcontainer/start_vnc.sh`
+- 启动 VNC 后端 `5901`
+- 启动 noVNC 页面代理 `6080`
+- `6080` 默认公开，`5901` 默认私有
+
+noVNC 浏览器地址：
+
+```text
+https://<your-codespace>-6080.app.github.dev/vnc.html
+```
+
+默认 VNC 密码：`vscode`
+
+如果你想自定义密码，可以在打开 Codespace 之前设置：
+
+```bash
+export VNC_PASSWORD='yourpassword'
+```
 ## 常见问题
 ### 远程控制延迟太高
 默认codespaces的VNC是卡的。可以在系统里装一个远程控制软件，比如Todesk、向日葵等，速度就很快了。

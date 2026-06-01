@@ -3,12 +3,15 @@
 
 set -e
 
+VNC_PASSWORD="${VNC_PASSWORD:-vscode}"
+VNC_DIR="/home/vscode/.vnc"
+PASSWD_FILE="$VNC_DIR/passwd"
+
 echo "======================================"
 echo "6080 noVNC 诊断和修复脚本"
 echo "======================================"
 echo ""
 
-# 1. 检查numpy是否安装
 echo "📦 检查 numpy 依赖..."
 if python3 -c "import numpy" 2>/dev/null; then
     echo "✅ numpy 已安装"
@@ -19,19 +22,20 @@ else
 fi
 echo ""
 
-# 2. 检查VNC服务
 echo "🖥️  检查 VNC 服务..."
 if pgrep -f "vncserver|Xvnc|Xtigervnc" > /dev/null; then
     echo "✅ VNC 服务正在运行"
 else
     echo "⚠️  VNC 服务未运行，正在启动..."
-    vncserver :1 -geometry 1920x1080 -depth 24 -SecurityTypes None
+    mkdir -p "$VNC_DIR"
+    printf '%s\n%s\n' "$VNC_PASSWORD" "$VNC_PASSWORD" | vncpasswd -f > "$PASSWD_FILE"
+    chmod 600 "$PASSWD_FILE"
+    vncserver :1 -geometry 1920x1080 -depth 24
     sleep 2
     echo "✅ VNC 服务已启动"
 fi
 echo ""
 
-# 3. 检查noVNC代理
 echo "🌐 检查 noVNC 代理..."
 if pgrep -f "novnc_proxy" > /dev/null; then
     echo "✅ noVNC 代理正在运行"
@@ -43,7 +47,6 @@ else
 fi
 echo ""
 
-# 4. 测试6080端口
 echo "🧪 测试 6080 端口..."
 if curl -s http://localhost:6080/vnc.html > /dev/null 2>&1; then
     echo "✅ 6080 端口可访问"
